@@ -19,10 +19,13 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.recipeapp.ui.theme.Orange
 
 @Composable
-fun SplashScreen(modifier: Modifier = Modifier) {
+fun SplashScreen(
+    navController: NavController,
+    modifier: Modifier = Modifier) {
     Box(
         modifier.fillMaxSize()
 
@@ -43,7 +46,7 @@ fun SplashScreen(modifier: Modifier = Modifier) {
             // Button at the bottom end
             Button(
                 onClick = {
-                    // Handle button click
+                          navController.navigate("mainScreen")
                 },
                 modifier = Modifier
                     .align(Alignment.Start)
@@ -55,8 +58,8 @@ fun SplashScreen(modifier: Modifier = Modifier) {
 }
 
 
-@Composable
-@Preview(showBackground = true)
-fun SplashScreenPreview() {
-    SplashScreen()
-}
+//@Composable
+//@Preview(showBackground = true)
+//fun SplashScreenPreview() {
+//    SplashScreen()
+//}

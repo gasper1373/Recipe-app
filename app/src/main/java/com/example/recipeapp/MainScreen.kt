@@ -3,6 +3,7 @@ package com.example.recipeapp
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,6 +14,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -36,18 +38,18 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.recipeapp.ui.theme.Orange
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun MainScreen(
+    navController: NavController,
     modifier: Modifier = Modifier,
 ) {
-
     var isSearchBarActivate by remember {
         mutableStateOf(false)
     }
@@ -58,43 +60,45 @@ fun MainScreen(
         },
     ) { paddingValues ->
         //My Screen content goes here
-        Column(
+        LazyColumn(
             modifier = Modifier
                 .padding(paddingValues)
                 .fillMaxSize()
         ) {
-            SearchBar()
-            Spacer(modifier = Modifier.height(16.dp))
-            LazyRow(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
-                horizontalArrangement = Arrangement.spacedBy(15.dp)
+            item {
+                SearchBar()
+                Spacer(modifier = Modifier.height(16.dp))
+                LazyRow(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    horizontalArrangement = Arrangement.spacedBy(15.dp)
 
-            ) {
-                items(5) { index ->
-                    LazyBox(text = index.toString())
+                ) {
+                    items(5) { index ->
+                        LazyBox(text = index.toString())
+                    }
                 }
-            }
-            Spacer(modifier = Modifier.height(16.dp))
-            Text(
-                text = "Category Name",
-                fontWeight = FontWeight.Bold,
-                fontSize = 18.sp,
-                color = Color.Black,
-                modifier = Modifier.padding(start = 16.dp)
-            )
-            Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(16.dp))
+                Text(
+                    text = "Category Name",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 18.sp,
+                    color = Color.Black,
+                    modifier = Modifier.padding(start = 16.dp)
+                )
+                Spacer(modifier = Modifier.height(16.dp))
 
-            LazyRow(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
-                horizontalArrangement = Arrangement.spacedBy(10.dp)
+                LazyRow(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    horizontalArrangement = Arrangement.spacedBy(10.dp)
 
-            ) {
-                items(5) { index ->
-                    LazyLargeBox(text = index.toString())
+                ) {
+                    items(5) { index ->
+                        LazyLargeBox(text = index.toString(), navController)
+                    }
                 }
             }
         }
@@ -171,13 +175,15 @@ fun LazyBox(text: String) {
 
 
 @Composable
-fun LazyLargeBox(text: String) {
+fun LazyLargeBox(text: String, navController: NavController) {
     Column {
-
         Box(
             modifier = Modifier
                 .width(240.dp)
                 .height(360.dp)
+                .clickable {
+                    navController.navigate("detailScreen")
+                }
                 .background(Color.Red, shape = RoundedCornerShape(16.dp))
         ) {
             Image(
@@ -197,15 +203,15 @@ fun LazyLargeBox(text: String) {
 }
 
 
-@Preview()
-@Composable
-fun MainScreenPreview() {
-    MainScreen()
-}
+//@Preview()
+//@Composable
+//fun MainScreenPreview() {
+//    MainScreen()
+//}
 
-@Preview
-@Composable
-fun LazyBoxPreview() {
-    // LazyBox(text = "Dish Name")
-   // LazyLargeBox(text = "Dish Name")
-}
+//@Preview
+//@Composable
+//fun LazyBoxPreview() {
+//    // LazyBox(text = "Dish Name")
+//   // LazyLargeBox(text = "Dish Name")
+//}
